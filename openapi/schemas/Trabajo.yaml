@@ -1,0 +1,21 @@
+Trabajo:
+  type: object
+  description: Trabajo asociado a una notificación.
+  properties:
+    trabajoId:
+      description: Id Trabajo
+      readOnly: true
+      type: integer
+      format: int32
+    nombreTrabajo:
+      description: Nombre del trabajo
+      readOnly: true
+      type: string
+    estadoTrabajo:
+      description: Estado de un trabajo
+      type: string
+      enum:
+        - creado
+        - planificado
+        - iniciado
+        - terminado

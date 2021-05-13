@@ -1,0 +1,48 @@
+Notificacion:
+  type: object
+  description: Notificacion asociada al estado del trabajo de un cliente en concreto.
+  properties:
+    notificacionId:
+      description: Id Notificacion
+      readOnly: true
+      type: integer
+      format: int32
+    clienteId:
+      description: Id Cliente
+      readOnly: true
+      type: integer
+      format: int32
+    fechaNotificacion:
+      description: Hora de envío de la notificacion
+      type: string
+      format: date
+    objetoTrabajo:
+      description: Objeto Trabajo asociado a una notificacion.
+      type: object
+      properties:
+        Trabajo:
+          $ref: './Trabajo.yaml#/Trabajo'
+    links:
+      description: Enlaces de relación
+      type: object
+      properties:
+        parent:
+          $ref: './Link.yaml#/Link'
+        self:
+          $ref: './Link.yaml#/Link'
+  example:
+    notificacionId: 1234
+    clienteId: 5678
+    fechaNotificacion: "2021-04-06"
+    objetoTrabajo:
+      Trabajo:
+        trabajoId: 91011
+        nombreTrabajo: Revisión
+        estadoTrabajo: creado
+    links:
+      parent:
+          href: /api/v1/notificacion
+          rel: lista_notificaciones crear_notificacion
+      self:
+          href: /api/v1/notificacion/1234
+          rel: modificar_notificacion eliminar_notificacion

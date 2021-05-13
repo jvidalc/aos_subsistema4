@@ -1,0 +1,406 @@
+openapi: "3.0.3"
+info:
+  title: "🔴 ️Notificaciones del taller"
+  version: "1.0.0"
+  description: '<b>[UPM] AOS</b></br>
+                API para la gestión de notificaciones relacionadas con el funcionamiento del taller.</br>
+                Este subsistema es el encargado de notificar a los clientes el estado de los diferentes trabajos.'
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+  contact:
+    name: Moodle
+    url: 'https://moodle.upm.es/titulaciones/oficiales/course/view.php?id=9463'
+servers:
+  - url: 'http://127.0.0.1/api/v1'
+    description: 'Servidor subsistema 4'
+tags:
+  - name: '🔴 Notificacion'
+    description: Notificacion de un cliente
+paths:
+  /notificacion:
+    get:
+      tags:
+        - '🔴 Notificacion'
+      summary: Obtiene todas las notificaciones de un cliente.
+      operationId: s4_notificacion_array_get
+      security:
+        - userToken: []
+      responses:
+        200:
+          description: Array de notificaciones con su estado correspondiente.
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificaciones:
+                    description: array de notificaciones
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Notificacion'
+              examples:
+                notificacionesExamples:
+                  $ref: '#/components/examples/notificaciones'
+        401:
+          $ref: '#/components/responses/Response_401'
+        403:
+          $ref: '#/components/responses/Response_403'
+        404:
+          $ref: '#/components/responses/Response_404'
+    post:
+      tags:
+        - '🔴 Notificacion'
+      summary: Crea una nueva notificacion.
+      description: Genera una nueva notificacion para un cliente y trabajo concretos, autorizada previamente por otro subsistema.
+      operationId: s4_notificacion_post
+      requestBody:
+        $ref: '#/components/requestBodies/NotificacionRB'
+      security:
+        - subsystemToken: []
+      responses:
+        201:
+          description: notificacion creada
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notificacion'
+        400:
+          $ref: '#/components/responses/Response_400'        
+        401:
+          $ref: '#/components/responses/Response_401'
+        403:
+          $ref: '#/components/responses/Response_403'
+        422:
+          $ref: '#/components/responses/Response_422'
+    options:
+      tags:
+        - '🔴 Notificacion'
+      summary: Proporciona la lista de los métodos HTTP soportados.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
+      operationId: s4_notificacion_array_options
+      responses:
+        204:
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+
+  '/notificacion/{notificacionId}':
+    parameters:
+      - $ref: '#/components/parameters/notificacionId'
+    get:
+      tags:
+        - '🔴 Notificacion'
+      summary: Recupera una notificacion específica identificada por su ID.
+      description: Devuelve la notificación identificada por `notificacionId`.
+      operationId: s4_notificacion_get
+      security:
+        - userToken: []
+      responses:
+        200:
+          description: Notificacion recuperada
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notificacion'
+        401:
+          $ref: '#/components/responses/Response_401'
+        403:
+          $ref: '#/components/responses/Response_403'
+        404:
+          $ref: '#/components/responses/Response_404'
+    put:
+      tags:
+        - '🔴 Notificacion'
+      summary: Modifica una notificación identificada por su ID.
+      description: Actualiza la notificacion identificada por `notificacionId`.
+      operationId: s4_notificacion_put
+      security:
+        - subsystemToken: []
+      parameters:
+        - $ref: '#/components/parameters/ifMatchParam'
+      requestBody:
+        $ref: '#/components/requestBodies/NotificacionRB'
+      responses:
+        200:
+          description: '`OK`: la notificación ha sido modificada'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notificacion'
+        401:
+          $ref: '#/components/responses/Response_401'
+        404:
+          $ref: '#/components/responses/Response_404'
+        412:
+          $ref: '#/components/responses/Response_412'
+    delete:
+      tags:
+        - '🔴 Notificacion'
+      summary: Elimina una notificación identificada por su ID.
+      description: Elimina la notificacion identificada por `notificacionId`.
+      operationId: s4_notificacion_delete
+      security:
+        - subsystemToken: []
+      responses:
+        204:
+          description: Notificación eliminada &lt;Cuerpo de la respuesta vacío&gt;
+        401:
+          $ref: '#/components/responses/Response_401'
+        404:
+          $ref: '#/components/responses/Response_404'
+    options:
+      tags:
+        - '🔴 Notificacion'
+      summary: Proporciona la lista de los métodos HTTP soportados.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
+      operationId: s4_notificacion_options
+      responses:
+        204:
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+
+components:
+  schemas:
+    Notificacion:
+      $ref: './schemas/Notificacion.yaml#/Notificacion'
+    HTTP_Problem:
+      $ref: './schemas/HTTP_Problem.yaml#/HTTP_Problem'
+
+  securitySchemes:
+    userToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    subsystemToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  headers:
+    ETag:
+      description: Entity Tag (identificador único proporcionado para validación de caché)
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+        # https://github.com/marak/Faker.js#api-methods
+        x-faker: random.uuid
+        example:
+          33a64df551425fcc
+    Location:
+      description: '`URI` del nuevo recurso'
+      schema:
+        type: string
+        format: url
+        x-faker: internet.url
+        example:
+          /api/v1/notificaciones/1936
+    Allow:
+      description: Lista de métodos HTTP soportados
+      schema:
+        type: string
+      example:
+        GET,POST,PUT,DELETE,OPTIONS
+
+  parameters:
+    notificacionId:
+      name: notificacionId
+      in: path
+      description: ID de una notificación
+      required: true
+      schema:
+        type: integer
+        pattern: ^\d+$
+    ifMatchParam:
+      name: If-Match
+      in: header
+      description: ETag del recurso que se desea modificar
+      required: true
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+
+  requestBodies:
+    NotificacionRB:
+      description: '`Notificacion` data'
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - clienteId
+              - trabajoId
+              - estadoTrabajo
+              - fechaNotificacion
+            properties:
+              clienteId:
+                description: Ref. del id cliente asociado a la notificacion solicitada
+                type: integer
+                format: int32
+              trabajoId:
+                description: Ref. del id trabajo asociado a la notificacion solicitada
+                type: integer
+                format: int32
+              estadoTrabajo:
+                description: Estado de un trabajo
+                type: string
+                enum:
+                  - creado
+                  - planificado
+                  - iniciado
+                  - terminado
+              fechaNotificacion:
+                description: Hora de envío de la notificacion
+                type: string
+                format: date
+
+            example:
+              clienteId: 5678
+              trabajoId: 91011
+              estadoTrabajo: creado
+              fechaNotificacion: "2021-04-06"
+
+  responses:
+    Response_400:
+      description: '`BAD REQUEST`: el servidor no puede procesar la petición porque se ha detectado un error en el cliente'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-400:
+              $ref: '#/components/examples/response-http-400'
+    Response_401:
+      description: '`UNAUTHORIZED`: no se ha encontrado la autenticación necesaria'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-401:
+              $ref: '#/components/examples/response-http-401'
+    Response_403:
+      description: '`FORBIDDEN`: el servidor entiende la petición pero no la autoriza'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-403:
+              $ref: '#/components/examples/response-http-403'
+    Response_404:
+      description: '`NOT FOUND`: recurso no disponible'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-404:
+              $ref: '#/components/examples/response-http-404'
+    Response_412:
+      description: '`PRECONDITION FAILED`: no se cumple alguna condición previa'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-412:
+              $ref: '#/components/examples/response-http-412'
+    Response_422:
+      description: '`UNPROCESSABLE ENTITY`: falta la referencia o un campo necesario'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-422:
+              $ref: '#/components/examples/response-http-422'
+
+  examples:
+    notificaciones:
+      value:
+        - notificacionId: 1234
+          clienteId: 5678
+          fechaNotificacion: "2021-04-06"
+          objetoTrabajo:
+            Trabajo:
+              trabajoId: 91011
+              nombreTrabajo: Revisión
+              estadoTrabajo: creado
+          links:
+            parent:
+                href: /api/v1/notificacion
+                rel: lista_notificaciones crear_notificacion
+            self:
+                href: /api/v1/notificacion/1234
+                rel: consultar_notificacion modificar_notificacion eliminar_notificacion
+        - notificacionId: 9876
+          clienteId: 5432
+          fechaNotificacion: "2021-04-10"
+          objetoTrabajo:
+            Trabajo:
+              trabajoId: 1001
+              nombreTrabajo: Pintura
+              estadoTrabajo: planificado
+          links:
+            parent:
+                href: /api/v1/notificacion
+                rel: listar_notificaciones crear_notificacion
+            self:
+                href: /api/v1/notificacion/9876
+                rel: consultar_notificacion modificar_notificacion eliminar_notificacion
+    response-http-400:
+      value:
+        type: https://httpstatuses.com/400
+        title: BAD REQUEST
+        status: 400
+        detail: El servidor no puede procesar la petición porque se ha detectado un error en el cliente...
+        instance: about:blank
+    response-http-401:
+      value:
+        type: https://httpstatuses.com/401
+        title: UNAUTHORIZED
+        status: 401
+        detail: No se ha encontrado la autenticación necesaria...
+        instance: about:blank
+    response-http-403:
+      value:
+        type: https://httpstatuses.com/403
+        title: FORBIDDEN
+        status: 403
+        detail: El servidor entiende la petición pero no la autoriza...
+        instance: about:blank
+    response-http-404:
+      value:
+        type: https://httpstatuses.com/404
+        title: NOT FOUND
+        status: 404
+        detail: El recurso solicitado no está disponible...
+        instance: about:blank
+    response-http-412:
+      value:
+        type: https://httpstatuses.com/412
+        title: PRECONDITION FAILED
+        status: 412
+        detail: No se cumple alguna condición previa...
+        instance: about:blank
+    response-http-422:
+      value:
+        type: https://httpstatuses.com/422
+        title: UNPROCESSABLE ENTITY
+        status: 422
+        detail: Falta la referencia o un campo necesario...
+        instance: about:blank
