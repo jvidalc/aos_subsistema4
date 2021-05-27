@@ -2,6 +2,14 @@
 Envío de **notificaciones** relacionadas con el funcionamiento del taller. 
 Este subsistema es el encargado de notificar a los clientes el estado de los diferentes trabajos.
 
+## Instalación y despliegue
+### Ruta
+
+localhost/AOS4
+
+
+
+
 ## Explicación del diseño de la API para la gestión de **Notificaciones**
 ### API segura: Autenticación
 Hemos decidido crear dos tipos de autenticación mediante **JWT** (JSON Web Token) destinadas a funcionalidades distintas:
