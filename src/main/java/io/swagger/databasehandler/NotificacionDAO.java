@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import io.swagger.model.Notificacion;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -79,13 +80,14 @@ public class NotificacionDAO {
             ResultSet rs = ps.executeQuery();
             Notificacion nueva = new Notificacion();
             nueva.setNotificacionId(rs.getInt("id"));
-            nueva.setClienteId(rs.getIn("clienteId"))
+            nueva.setClienteId(rs.getInt("clienteId"));
             nueva.setFechaNotificacion(rs.getDate("fechaNotificacion").toLocalDate());
             nueva.setTrabajo(trabajoDAO.obtener(rs.getInt("trabajoId")));
 
             return nueva;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 }
