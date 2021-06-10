@@ -104,10 +104,10 @@ public class NotificacionApiController implements NotificacionApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 Notificacion noti = notificacionDAO.obtener(notificacionId);
-                return new ResponseEntity<Notificacion>(objectMapper.readValue("{\n  \"notificacionId\" : " + noti.getNotificacionId() + ",\n  \"clienteId\" : " + noti.getClienteId() + ",\n  \"fechaNotificacion\" : \"2021-04-06\",\n  \"objetoTrabajo\" : {\n    \"Trabajo\" : {\n      \"trabajoId\" : 91011,\n      \"nombreTrabajo\" : \"Revisión\",\n      \"estadoTrabajo\" : \"creado\"\n    }\n  },\n  \"links\" : {\n    \"parent\" : {\n      \"href\" : \"/api/v1/notificacion\",\n      \"rel\" : \"lista_notificaciones crear_notificacion\"\n    },\n    \"self\" : {\n      \"href\" : \"/api/v1/notificacion/1234\",\n      \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n    }\n  }\n}", Notificacion.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Notificacion>(objectMapper.readValue("{\n  \"notificacionId\" : " + noti.getNotificacionId() + ",\n  \"clienteId\" : " + noti.getClienteId() + ",\n  \"fechaNotificacion\" : " + noti.getFechaNotificacion() + ",\n  \"objetoTrabajo\" : {\n    \"Trabajo\" : {\n      \"trabajoId\" : " + noti.getTrabajo().getTrabajoId() + ",\n      \"nombreTrabajo\" : " + noti.getTrabajo().getNombreTrabajo() + ",\n      \"estadoTrabajo\" : " + noti.getTrabajo().getEstadoTrabajo() + "\n    }\n  },\n  \"links\" : {\n    \"parent\" : {\n      \"href\" : \"/api/v1/notificacion\",\n      \"rel\" : \"lista_notificaciones crear_notificacion\"\n    },\n    \"self\" : {\n      \"href\" : \"/api/v1/notificacion/1234\",\n      \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n    }\n  }\n}", Notificacion.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Notificacion>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<Notificacion>(HttpStatus.NOT_FOUND);
             }
         }
 
