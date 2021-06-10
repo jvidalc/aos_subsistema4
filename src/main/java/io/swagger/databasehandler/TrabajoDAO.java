@@ -8,11 +8,10 @@ import java.util.List;
 
 public class TrabajoDAO {
 
-    private Connection con;
 
-    public TrabajoDAO() {
+    public TrabajoDAO(Connection con) {
         try{
-            this.con = DriverManager.getConnection("jdbc:mysql://10.0.2.15:3306/databaseName","root","qwerty");
+            this.con = DriverManager.getConnection("jdbc:mysql://10.0.2.15:3306/aos4","root","qwerty");
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -21,7 +20,7 @@ public class TrabajoDAO {
     }
 
     void insertar(Trabajo notificacion){
-        con.prepareStatement("INSERT INTO notificaciones ")
+        
     }
 
     void eliminar(Trabajo notificacion) {

@@ -1,5 +1,6 @@
 package io.swagger.api;
 
+import io.swagger.databasehandler.NotificacionDAO;
 import io.swagger.model.HTTPProblem;
 import io.swagger.model.InlineResponse200;
 import io.swagger.model.Notificacion;
@@ -46,11 +47,13 @@ public class NotificacionApiController implements NotificacionApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+    private final NotificacionDAO notificacionDAO;
 
     @org.springframework.beans.factory.annotation.Autowired
     public NotificacionApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
+        notificacionDAO = new NotificacionDAO();
     }
 
     public ResponseEntity<InlineResponse200> s4NotificacionArrayGet() {
@@ -58,7 +61,7 @@ public class NotificacionApiController implements NotificacionApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 //Coger dato de BD
-                
+                List<Notificacion> lista_notificaciones = notificacionDAO.obtenerTodos();
                 //Convertirlo a string con formato JSON
                 //retornarlo
                 return new ResponseEntity<InlineResponse200>(objectMapper.readValue("{\n  \"notificaciones\" : [ {\n    \"notificacionId\" : 1234,\n    \"clienteId\" : 5678,\n    \"fechaNotificacion\" : \"2021-04-06\",\n    \"objetoTrabajo\" : {\n      \"Trabajo\" : {\n        \"trabajoId\" : 91011,\n        \"nombreTrabajo\" : \"Revisión\",\n        \"estadoTrabajo\" : \"creado\"\n      }\n    },\n    \"links\" : {\n      \"parent\" : {\n        \"href\" : \"/api/v1/notificacion\",\n        \"rel\" : \"lista_notificaciones crear_notificacion\"\n      },\n      \"self\" : {\n        \"href\" : \"/api/v1/notificacion/1234\",\n        \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n      }\n    }\n  }, {\n    \"notificacionId\" : 1234,\n    \"clienteId\" : 5678,\n    \"fechaNotificacion\" : \"2021-04-06\",\n    \"objetoTrabajo\" : {\n      \"Trabajo\" : {\n        \"trabajoId\" : 91011,\n        \"nombreTrabajo\" : \"Revisión\",\n        \"estadoTrabajo\" : \"creado\"\n      }\n    },\n    \"links\" : {\n      \"parent\" : {\n        \"href\" : \"/api/v1/notificacion\",\n        \"rel\" : \"lista_notificaciones crear_notificacion\"\n      },\n      \"self\" : {\n        \"href\" : \"/api/v1/notificacion/1234\",\n        \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n      }\n    }\n  } ]\n}", InlineResponse200.class), HttpStatus.NOT_IMPLEMENTED);
@@ -82,7 +85,7 @@ public class NotificacionApiController implements NotificacionApi {
 
     public ResponseEntity<Void> s4NotificacionDelete(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<Notificacion> s4NotificacionGet(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId) {
