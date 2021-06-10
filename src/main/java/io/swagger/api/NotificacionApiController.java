@@ -115,7 +115,12 @@ public class NotificacionApiController implements NotificacionApi {
 
     public ResponseEntity<Void> s4NotificacionOptions(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json")) {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.add("Allow", "GET, OPTIONS, DELETE");
+            return new ResponseEntity<Void>(responseHeaders, HttpStatus.OK);
+        }
+        return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     public ResponseEntity<Notificacion> s4NotificacionPost(@Parameter(in = ParameterIn.DEFAULT, description = "`Notificacion` data", required=true, schema=@Schema()) @Valid @RequestBody Notificacion notificacion) {
