@@ -1,6 +1,5 @@
 .swagger-codegen
 *.class
-*.jar
 target/
 .settings/
 .classpath
