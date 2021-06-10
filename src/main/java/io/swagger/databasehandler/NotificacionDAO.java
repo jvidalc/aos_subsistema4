@@ -9,7 +9,6 @@ import java.sql.SQLException;
 
 import io.swagger.model.Notificacion;
 import java.util.List;
-import java.util.ArrayList;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -49,6 +48,7 @@ public class NotificacionDAO {
     public void eliminar(Integer notificacionId) {
         try(PreparedStatement ps = con.prepareStatement("DELETE FROM notificaciones WHERE id = ?;")) {
             ps.setInt(1,notificacionId);
+            ps.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,7 +73,19 @@ public class NotificacionDAO {
         }
     }
 
-    public Notificacion obtener(Integer id) {
+    public Notificacion obtener(Integer id) {  
+        try (PreparedStatement ps = con.prepareStatement("SELECT * FROM notificaciones WHERE id = ?;")) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            Notificacion nueva = new Notificacion();
+            nueva.setNotificacionId(rs.getInt("id"));
+            nueva.setClienteId(rs.getIn("clienteId"))
+            nueva.setFechaNotificacion(rs.getDate("fechaNotificacion").toLocalDate());
+            nueva.setTrabajo(trabajoDAO.obtener(rs.getInt("trabajoId")));
 
+            return nueva;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
