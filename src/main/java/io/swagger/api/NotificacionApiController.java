@@ -85,7 +85,18 @@ public class NotificacionApiController implements NotificacionApi {
 
     public ResponseEntity<Void> s4NotificacionDelete(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        if (accept != null && accept.contains("application/json")) {
+            try {
+
+                notificacionDAO.eliminar(notificacionId);
+                
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<InlineResponse200>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity<Notificacion> s4NotificacionGet(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId) {
