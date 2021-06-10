@@ -86,16 +86,8 @@ public class NotificacionApiController implements NotificacionApi {
     public ResponseEntity<Void> s4NotificacionDelete(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-
-                notificacionDAO.eliminar(notificacionId);
-                
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<InlineResponse200>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            notificacionDAO.eliminar(notificacionId);
         }
-        
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
@@ -117,7 +109,7 @@ public class NotificacionApiController implements NotificacionApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Allow", "GET, OPTIONS, DELETE");
+            responseHeaders.add("Allow", "GET, POST, PUT, OPTIONS, DELETE");
             return new ResponseEntity<Void>(responseHeaders, HttpStatus.OK);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
@@ -126,17 +118,10 @@ public class NotificacionApiController implements NotificacionApi {
     public ResponseEntity<Notificacion> s4NotificacionPost(@Parameter(in = ParameterIn.DEFAULT, description = "`Notificacion` data", required=true, schema=@Schema()) @Valid @RequestBody Notificacion notificacion) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                notificacionDAO.insertar(notificacion);
-                return new ResponseEntity<Notificacion>(responseHeaders, HttpStatus.OK);
-                //return new ResponseEntity<Notificacion>(objectMapper.readValue("{\n  \"notificacionId\" : 1234,\n  \"clienteId\" : 5678,\n  \"fechaNotificacion\" : \"2021-04-06\",\n  \"objetoTrabajo\" : {\n    \"Trabajo\" : {\n      \"trabajoId\" : 91011,\n      \"nombreTrabajo\" : \"Revisión\",\n      \"estadoTrabajo\" : \"creado\"\n    }\n  },\n  \"links\" : {\n    \"parent\" : {\n      \"href\" : \"/api/v1/notificacion\",\n      \"rel\" : \"lista_notificaciones crear_notificacion\"\n    },\n    \"self\" : {\n      \"href\" : \"/api/v1/notificacion/1234\",\n      \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n    }\n  }\n}", Notificacion.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Notificacion>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            notificacionDAO.insertar(notificacion);
+            return new ResponseEntity<Notificacion>(HttpStatus.OK);
         }
-
-        return new ResponseEntity<Notificacion>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Notificacion>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     public ResponseEntity<Notificacion> s4NotificacionPut(@Parameter(in = ParameterIn.HEADER, description = "ETag del recurso que se desea modificar" ,required=true,schema=@Schema()) @RequestHeader(value="If-Match", required=true) String ifMatch,@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId,@Parameter(in = ParameterIn.DEFAULT, description = "`Notificacion` data", required=true, schema=@Schema()) @Valid @RequestBody Object body) {
