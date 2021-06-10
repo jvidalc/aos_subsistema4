@@ -63,14 +63,22 @@ public class NotificacionApiController implements NotificacionApi {
                 //Coger dato de BD
                 List<Notificacion> lista_notificaciones = notificacionDAO.obtenerTodos();
                 //Convertirlo a string con formato JSON
+                String json = "{\n  \"notificaciones\" : [";
+                for(Notificacion noti : lista_notificaciones){
+                    json += "{\n    \"notificacionId\" : " + noti.getNotificacionId() + ",\n    \"clienteId\" : " +  noti.getClienteId() + ",\n    \"fechaNotificacion\" : \"" + noti.getFechaNotificacion().toString() + "\",\n    \"objetoTrabajo\" : {\n      \"Trabajo\" : {\n        \"trabajoId\" : " + noti.getTrabajo().getTrabajoId() + ",\n        \"nombreTrabajo\" : \"" + noti.getTrabajo().getNombreTrabajo() + " \",\n        \"estadoTrabajo\" : \"" + noti.getTrabajo().getEstadoTrabajo() + "\"\n      }\n    },\n    \"links\" : {\n      \"parent\" : {\n        \"href\" : \"/api/v1/notificacion\",\n        \"rel\" : \"lista_notificaciones crear_notificacion\"\n      },\n      \"self\" : {\n        \"href\" : \"/api/v1/notificacion/1234\",\n        \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n      }\n    }\n  },";
+                }
+                StringBuffer aux = new StringBuffer(json);
+                aux.deleteCharAt(json.length()-1);
+                json = aux.toString();
+                json += "]\n}";
                 //retornarlo
-                return new ResponseEntity<InlineResponse200>(objectMapper.readValue("{\n  \"notificaciones\" : [ {\n    \"notificacionId\" : 1234,\n    \"clienteId\" : 5678,\n    \"fechaNotificacion\" : \"2021-04-06\",\n    \"objetoTrabajo\" : {\n      \"Trabajo\" : {\n        \"trabajoId\" : 91011,\n        \"nombreTrabajo\" : \"Revisión\",\n        \"estadoTrabajo\" : \"creado\"\n      }\n    },\n    \"links\" : {\n      \"parent\" : {\n        \"href\" : \"/api/v1/notificacion\",\n        \"rel\" : \"lista_notificaciones crear_notificacion\"\n      },\n      \"self\" : {\n        \"href\" : \"/api/v1/notificacion/1234\",\n        \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n      }\n    }\n  }, {\n    \"notificacionId\" : 1234,\n    \"clienteId\" : 5678,\n    \"fechaNotificacion\" : \"2021-04-06\",\n    \"objetoTrabajo\" : {\n      \"Trabajo\" : {\n        \"trabajoId\" : 91011,\n        \"nombreTrabajo\" : \"Revisión\",\n        \"estadoTrabajo\" : \"creado\"\n      }\n    },\n    \"links\" : {\n      \"parent\" : {\n        \"href\" : \"/api/v1/notificacion\",\n        \"rel\" : \"lista_notificaciones crear_notificacion\"\n      },\n      \"self\" : {\n        \"href\" : \"/api/v1/notificacion/1234\",\n        \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n      }\n    }\n  } ]\n}", InlineResponse200.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<InlineResponse200>(objectMapper.readValue(json, InlineResponse200.class), HttpStatus.OK);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<InlineResponse200>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<InlineResponse200>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<InlineResponse200>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     public ResponseEntity<Void> s4NotificacionArrayOptions() {
