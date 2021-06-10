@@ -2,14 +2,19 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.model.NotificacionLinks;
-import io.swagger.model.NotificacionObjetoTrabajo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * Notificacion asociada al estado del trabajo de un cliente en concreto.
@@ -18,17 +23,21 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-18T16:15:28.764Z[GMT]")
 
-
+@Entity
+@Table(name="notificaciones")
 public class Notificacion   {
   @JsonProperty("notificacionId")
+  @Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer notificacionId = null;
-
+  @Column(name="idCliente")
   @JsonProperty("clienteId")
   private Integer clienteId = null;
-
+  @Column(name="fecha")
   @JsonProperty("fechaNotificacion")
   private LocalDate fechaNotificacion = null;
-
+  @OneToOne()
+	@JoinColumn(name="fk_trabajo")
   @JsonProperty("objetoTrabajo")
   private NotificacionObjetoTrabajo objetoTrabajo = null;
 

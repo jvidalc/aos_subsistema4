@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +27,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.MultiValueMap;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -54,19 +57,27 @@ public class NotificacionApiController implements NotificacionApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
+                //Coger dato de BD
+                
+                //Convertirlo a string con formato JSON
+                //retornarlo
                 return new ResponseEntity<InlineResponse200>(objectMapper.readValue("{\n  \"notificaciones\" : [ {\n    \"notificacionId\" : 1234,\n    \"clienteId\" : 5678,\n    \"fechaNotificacion\" : \"2021-04-06\",\n    \"objetoTrabajo\" : {\n      \"Trabajo\" : {\n        \"trabajoId\" : 91011,\n        \"nombreTrabajo\" : \"Revisión\",\n        \"estadoTrabajo\" : \"creado\"\n      }\n    },\n    \"links\" : {\n      \"parent\" : {\n        \"href\" : \"/api/v1/notificacion\",\n        \"rel\" : \"lista_notificaciones crear_notificacion\"\n      },\n      \"self\" : {\n        \"href\" : \"/api/v1/notificacion/1234\",\n        \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n      }\n    }\n  }, {\n    \"notificacionId\" : 1234,\n    \"clienteId\" : 5678,\n    \"fechaNotificacion\" : \"2021-04-06\",\n    \"objetoTrabajo\" : {\n      \"Trabajo\" : {\n        \"trabajoId\" : 91011,\n        \"nombreTrabajo\" : \"Revisión\",\n        \"estadoTrabajo\" : \"creado\"\n      }\n    },\n    \"links\" : {\n      \"parent\" : {\n        \"href\" : \"/api/v1/notificacion\",\n        \"rel\" : \"lista_notificaciones crear_notificacion\"\n      },\n      \"self\" : {\n        \"href\" : \"/api/v1/notificacion/1234\",\n        \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n      }\n    }\n  } ]\n}", InlineResponse200.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<InlineResponse200>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-
         return new ResponseEntity<InlineResponse200>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Void> s4NotificacionArrayOptions() {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json")) {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.add("Allow", "GET, OPTIONS, DELETE");
+            return new ResponseEntity<Void>(responseHeaders, HttpStatus.OK);
+        }
+        return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     public ResponseEntity<Void> s4NotificacionDelete(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId) {

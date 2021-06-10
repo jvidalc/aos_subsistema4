@@ -16,12 +16,12 @@ services:
       - spring-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=qwerty
-      - MYSQL_DATABASE=notificaciones
+      - MYSQL_DATABASE=aos4
       - MYSQL_USER=qwerty
       - MYSQL_PASSWORD=qwerty
     volumes:
       - db_data:/var/lib/mysql
-
+      - ./dump:/docker-entrypoint-initdb.d
 
 networks:
   spring-mysql:
