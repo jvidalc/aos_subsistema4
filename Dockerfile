@@ -1,4 +1,4 @@
 FROM openjdk:8-jdk-alpine
-COPY prueba.jar prueba.jar
+COPY main.jar main.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/prueba.jar"]
+ENTRYPOINT ["java","-jar","/main.jar"]

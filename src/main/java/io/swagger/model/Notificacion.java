@@ -23,21 +23,17 @@ import javax.validation.Valid;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-18T16:15:28.764Z[GMT]")
 
-@Entity
-@Table(name="notificaciones")
 public class Notificacion   {
   @JsonProperty("notificacionId")
-  @Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer notificacionId = null;
-  @Column(name="idCliente")
+
   @JsonProperty("clienteId")
   private Integer clienteId = null;
-  @Column(name="fecha")
+
   @JsonProperty("fechaNotificacion")
   private LocalDate fechaNotificacion = null;
-  @OneToOne()
-	@JoinColumn(name="fk_trabajo")
+
+  
   @JsonProperty("trabajo")
   private Trabajo trabajo = null;
 
