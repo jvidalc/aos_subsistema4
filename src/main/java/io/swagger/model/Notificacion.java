@@ -38,8 +38,8 @@ public class Notificacion   {
   private LocalDate fechaNotificacion = null;
   @OneToOne()
 	@JoinColumn(name="fk_trabajo")
-  @JsonProperty("objetoTrabajo")
-  private NotificacionObjetoTrabajo objetoTrabajo = null;
+  @JsonProperty("trabajo")
+  private Trabajo trabajo = null;
 
   @JsonProperty("links")
   private NotificacionLinks links = null;
@@ -102,24 +102,24 @@ public class Notificacion   {
     this.fechaNotificacion = fechaNotificacion;
   }
 
-  public Notificacion objetoTrabajo(NotificacionObjetoTrabajo objetoTrabajo) {
-    this.objetoTrabajo = objetoTrabajo;
+  public Notificacion trabajo(Trabajo trabajo) {
+    this.trabajo = trabajo;
     return this;
   }
 
   /**
-   * Get objetoTrabajo
-   * @return objetoTrabajo
+   * Get trabajo
+   * @return trabajo
    **/
   @Schema(description = "")
   
     @Valid
-    public NotificacionObjetoTrabajo getObjetoTrabajo() {
-    return objetoTrabajo;
+    public Trabajo getTrabajo() {
+    return trabajo;
   }
 
-  public void setObjetoTrabajo(NotificacionObjetoTrabajo objetoTrabajo) {
-    this.objetoTrabajo = objetoTrabajo;
+  public void setTrabajo(Trabajo trabajo) {
+    this.trabajo = trabajo;
   }
 
   public Notificacion links(NotificacionLinks links) {
@@ -155,13 +155,13 @@ public class Notificacion   {
     return Objects.equals(this.notificacionId, notificacion.notificacionId) &&
         Objects.equals(this.clienteId, notificacion.clienteId) &&
         Objects.equals(this.fechaNotificacion, notificacion.fechaNotificacion) &&
-        Objects.equals(this.objetoTrabajo, notificacion.objetoTrabajo) &&
+        Objects.equals(this.trabajo, notificacion.trabajo) &&
         Objects.equals(this.links, notificacion.links);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(notificacionId, clienteId, fechaNotificacion, objetoTrabajo, links);
+    return Objects.hash(notificacionId, clienteId, fechaNotificacion, trabajo, links);
   }
 
   @Override
@@ -172,7 +172,7 @@ public class Notificacion   {
     sb.append("    notificacionId: ").append(toIndentedString(notificacionId)).append("\n");
     sb.append("    clienteId: ").append(toIndentedString(clienteId)).append("\n");
     sb.append("    fechaNotificacion: ").append(toIndentedString(fechaNotificacion)).append("\n");
-    sb.append("    objetoTrabajo: ").append(toIndentedString(objetoTrabajo)).append("\n");
+    sb.append("    trabajo: ").append(toIndentedString(trabajo)).append("\n");
     sb.append("    links: ").append(toIndentedString(links)).append("\n");
     sb.append("}");
     return sb.toString();
