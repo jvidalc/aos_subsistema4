@@ -44,10 +44,10 @@ public class TrabajoDAO {
         try (PreparedStatement ps = con.prepareStatement("SELECT * FROM trabajos WHERE id = ?;")) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            Trabajo trab = new Notificacion();
+            Trabajo trab = new Trabajo();
             trab.setTrabajoId(rs.getInt("id"));
-            trab.setNombreTrabajo(rs.getIn("nombreTrabajo"))
-            trab.setEstadoTrabajo(rs.getString("estado"));
+            trab.setNombreTrabajo(rs.getString("nombreTrabajo"));
+            trab.setEstadoTrabajo(Trabajo.EstadoTrabajoEnum.fromValue(rs.getString("estado")));
 
             return trab;
         } catch (Exception e) {
