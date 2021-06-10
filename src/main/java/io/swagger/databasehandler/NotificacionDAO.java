@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import io.swagger.model.Notificacion;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +32,7 @@ public class NotificacionDAO {
     }
     
     public int insertar(Notificacion notificacion) {
-        try(Statement s = con.createStatement();){
+        try(Statement s = con.createStatement()){
             String query = 
             "INSERT INTO notificaciones (clienteId, fechaNotificacion, trabajoId) VALUES (" + notificacion.getClienteId().toString() + ", "+ notificacion.getFechaNotificacion().toString() + ", " + notificacion.getTrabajo().getTrabajoId() + ")";
             s.executeQuery(query);
@@ -54,7 +55,22 @@ public class NotificacionDAO {
     }
 
     public List<Notificacion> obtenerTodos() {
-        
+        List<Notificacion> resul = new ArrayList<>();
+        try(Statement s = con.createStatement()){
+            String query = "SELECT * FROM notificaciones";
+            ResultSet rs = s.executeQuery(query);
+            while(rs.next()){
+                Notificacion nueva = new Notificacion();
+                nueva.setNotificacionId(rs.getInt("id"));
+                nueva.setFechaNotificacion(rs.getDate("fechaNotificacion").toLocalDate());
+                nueva.setTrabajo(trabajoDAO.obtener(rs.getInt("trabajoId")));
+                resul.add(nueva);
+            }
+            return resul;
+        }
+        catch(Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public Notificacion obtener(Integer id) {

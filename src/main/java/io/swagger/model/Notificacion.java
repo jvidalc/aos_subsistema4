@@ -1,9 +1,9 @@
 package io.swagger.model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Column;
