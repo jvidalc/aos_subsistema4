@@ -116,7 +116,7 @@ public interface NotificacionApi {
         produces = { "application/json", "application/problem+json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Notificacion> s4NotificacionPost(@Parameter(in = ParameterIn.DEFAULT, description = "`Notificacion` data", required=true, schema=@Schema()) @Valid @RequestBody Object body);
+    ResponseEntity<Notificacion> s4NotificacionPost(@Parameter(in = ParameterIn.DEFAULT, description = "`Notificacion` data", required=true, schema=@Schema()) @Valid @RequestBody Notificacion notificacion);
 
 
     @Operation(summary = "Modifica una notificación identificada por su ID.", description = "Actualiza la notificacion identificada por `notificacionId`.", security = {
