@@ -5,4 +5,3 @@ target/
 .classpath
 .project
 *.properties
-*.sql
