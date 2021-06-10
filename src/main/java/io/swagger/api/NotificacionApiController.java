@@ -118,11 +118,13 @@ public class NotificacionApiController implements NotificacionApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Notificacion> s4NotificacionPost(@Parameter(in = ParameterIn.DEFAULT, description = "`Notificacion` data", required=true, schema=@Schema()) @Valid @RequestBody Object body) {
+    public ResponseEntity<Notificacion> s4NotificacionPost(@Parameter(in = ParameterIn.DEFAULT, description = "`Notificacion` data", required=true, schema=@Schema()) @Valid @RequestBody Notificacion notificacion) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Notificacion>(objectMapper.readValue("{\n  \"notificacionId\" : 1234,\n  \"clienteId\" : 5678,\n  \"fechaNotificacion\" : \"2021-04-06\",\n  \"objetoTrabajo\" : {\n    \"Trabajo\" : {\n      \"trabajoId\" : 91011,\n      \"nombreTrabajo\" : \"Revisión\",\n      \"estadoTrabajo\" : \"creado\"\n    }\n  },\n  \"links\" : {\n    \"parent\" : {\n      \"href\" : \"/api/v1/notificacion\",\n      \"rel\" : \"lista_notificaciones crear_notificacion\"\n    },\n    \"self\" : {\n      \"href\" : \"/api/v1/notificacion/1234\",\n      \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n    }\n  }\n}", Notificacion.class), HttpStatus.NOT_IMPLEMENTED);
+                notificacionDAO.insertar(notificacion);
+                return new ResponseEntity<Notificacion>(responseHeaders, HttpStatus.OK);
+                //return new ResponseEntity<Notificacion>(objectMapper.readValue("{\n  \"notificacionId\" : 1234,\n  \"clienteId\" : 5678,\n  \"fechaNotificacion\" : \"2021-04-06\",\n  \"objetoTrabajo\" : {\n    \"Trabajo\" : {\n      \"trabajoId\" : 91011,\n      \"nombreTrabajo\" : \"Revisión\",\n      \"estadoTrabajo\" : \"creado\"\n    }\n  },\n  \"links\" : {\n    \"parent\" : {\n      \"href\" : \"/api/v1/notificacion\",\n      \"rel\" : \"lista_notificaciones crear_notificacion\"\n    },\n    \"self\" : {\n      \"href\" : \"/api/v1/notificacion/1234\",\n      \"rel\" : \"modificar_notificacion eliminar_notificacion\"\n    }\n  }\n}", Notificacion.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Notificacion>(HttpStatus.INTERNAL_SERVER_ERROR);
