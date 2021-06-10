@@ -21,11 +21,11 @@ public class NotificacionDAO {
     private Logger logger = LogManager.getLogger(NotificacionDAO.class);
 
     public NotificacionDAO() {
-        try{
+        try {
             this.con = DriverManager.getConnection("jdbc:mysql://172.19.0.2:3306/aos4","root","qwerty");
             this.trabajoDAO = new TrabajoDAO(con);
         }
-        catch(Exception ex){
+        catch(Exception ex) {
             logger.error("No se ha podido inicializar la conexión con la base de datos.");
             ex.printStackTrace();
         }

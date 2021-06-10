@@ -77,7 +77,7 @@ public class NotificacionApiController implements NotificacionApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Allow", "GET, OPTIONS, DELETE");
+            responseHeaders.add("Allow", "GET, OPTIONS");
             return new ResponseEntity<Void>(responseHeaders, HttpStatus.OK);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
