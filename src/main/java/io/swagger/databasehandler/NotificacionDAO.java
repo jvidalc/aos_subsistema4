@@ -2,6 +2,7 @@ package io.swagger.databasehandler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ public class NotificacionDAO {
     private Connection con;
     private TrabajoDAO trabajoDAO;
     private Logger logger = LogManager.getLogger(NotificacionDAO.class);
-    
+
     public NotificacionDAO() {
         try{
             this.con = DriverManager.getConnection("jdbc:mysql://172.19.0.2:3306/aos4","root","qwerty");
@@ -29,7 +30,7 @@ public class NotificacionDAO {
         }
     }
     
-    int insertar(Notificacion notificacion) {
+    public int insertar(Notificacion notificacion) {
         try(Statement s = con.createStatement();){
             String query = 
             "INSERT INTO notificaciones (clienteId, fechaNotificacion, trabajoId) VALUES (" + notificacion.getClienteId().toString() + ", "+ notificacion.getFechaNotificacion().toString() + ", " + notificacion.getTrabajo().getTrabajoId() + ")";
@@ -44,15 +45,19 @@ public class NotificacionDAO {
         }
     }
 
-    void eliminar(Notificacion notificacion) {
-
+    public void eliminar(Integer notificacionId) {
+        try(PreparedStatement ps = con.prepareStatement("DELETE FROM notificaciones WHERE id = ?;")) {
+            ps.setInt(1,notificacionId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    List<Notificacion> obtenerTodos() {
+    public List<Notificacion> obtenerTodos() {
         
     }
 
-    Notificacion obtener(Integer id) {
+    public Notificacion obtener(Integer id) {
 
     }
 }
