@@ -21,7 +21,7 @@ services:
       - MYSQL_PASSWORD=qwerty
     volumes:
       - db_data:/var/lib/mysql
-      - ./dump:/docker-entrypoint-initdb.d
+      - ./dbdump:/docker-entrypoint-initdb.d
 
 networks:
   spring-mysql:
