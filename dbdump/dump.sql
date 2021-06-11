@@ -10,10 +10,10 @@ CREATE TABLE IF NOT EXISTS notificaciones
     (id INT NOT NULL AUTO_INCREMENT, 
     clienteId INT NOT NULL, 
     fechaNotificacion DATE NOT NULL, 
-    trabajoId INT NOT NULL,
+    trabajoId INT NULL,
     INDEX ind_trabajo (trabajoId),
     FOREIGN KEY (trabajoId)
         REFERENCES trabajos(id)
-        ON DELETE NULL
+        ON DELETE SET NULL
         ON UPDATE CASCADE);
 

@@ -1,14 +1,5 @@
 version: "3"
 services:
-  spring:
-    image: jvidalc/aos_subsistema4_notificaciones
-    ports:
-      - "8080:8080"
-    networks:
-      - spring-mysql
-    depends_on:
-      - mysqldb
-
   mysqldb:
     image: mysql:8
     restart: always
@@ -22,6 +13,17 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./dbdump:/docker-entrypoint-initdb.d
+      
+  spring:
+    image: jvidalc/aos_subsistema4_notificaciones
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-mysql
+    depends_on:
+      - mysqldb
+
+  
 
 networks:
   spring-mysql:

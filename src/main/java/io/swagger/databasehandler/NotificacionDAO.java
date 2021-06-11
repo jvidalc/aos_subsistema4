@@ -22,6 +22,7 @@ public class NotificacionDAO {
 
     public NotificacionDAO() {
         try {
+            Class.forName("com.mysql.jdbc.Driver"); 
             this.con = DriverManager.getConnection("jdbc:mysql://172.19.0.2:3306/aos4","root","qwerty");
             this.trabajoDAO = new TrabajoDAO(con);
         }
