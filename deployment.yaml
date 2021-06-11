@@ -1,0 +1,36 @@
+kind: Template
+apiVersion: v1
+metadata: 
+  name: despliegue taller
+parameters:
+  - name: notificaciones
+    displayName: notificaciones
+objects:
+- kind: Service
+  apiVersion: v1
+  metadata: 
+    name: notificaciones
+  spec:
+    ports:
+      - name: web
+        protocol: TCP
+        port: 8081
+        targetPort: 8081
+    selector:
+      name: notificaciones
+    type: ClusterIP
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata: 
+  name: notificaciones
+  spec:
+    replicas: 1
+    template:
+    spec:
+      containers:
+        - name: coches
+          image: asdiaz/aos_subsistema2:latest
+          imagePullPolicy: Always
+        - name: notificaciones
+          image: jvidalc/aos_subsistema4_notificaciones:latest
+          imagePullPolicy: Always

@@ -7,7 +7,9 @@ Este subsistema es el encargado de notificar a los clientes el estado de los dif
 
 localhost/AOS4
 
+### Link imagen docker en dockerHUB
 
+https://hub.docker.com/repository/docker/jvidalc/aos_subsistema4_notificaciones
 
 
 ## Explicación del diseño de la API para la gestión de **Notificaciones**
