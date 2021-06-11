@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS notificaciones
     clienteId INT NOT NULL, 
     fechaNotificacion DATE NOT NULL, 
     trabajoId INT NULL,
+    PRIMARY KEY (id),
     INDEX ind_trabajo (trabajoId),
     FOREIGN KEY (trabajoId)
         REFERENCES trabajos(id)
