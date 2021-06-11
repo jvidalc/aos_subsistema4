@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: despliegue-taller
+  name: despliegue-taller-2
 spec:
   selector:
     matchLabels:
@@ -13,13 +13,23 @@ spec:
         app: taller
     spec:
       containers:
-        - name: coches
-          image: asdiaz/aos_subsistema2:latest
+        #- name: clientes
+        #  image: clatange/aos:latest
+        #  imagePullPolicy: Always
+        - name: vehiculos
+          image: asdiaz/aos_subsistema2:2.4
+          imagePullPolicy: Always
+        - name: trabajos
+          image: albertozuga/aos-ss3:1.0.2
           imagePullPolicy: Always
         - name: notificaciones
           image: jvidalc/aos_subsistema4_notificaciones:latest
           imagePullPolicy: Always
-
-
-
-
+        #- name: facturas
+        #  image: rugana90/aos-ss5:0.5
+        #  imagePullPolicy: Always
+        #- name: recambios
+        #  image: clatange/aos:latest
+        #  imagePullPolicy: Always
+        
+        
