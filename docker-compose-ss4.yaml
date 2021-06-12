@@ -1,0 +1,32 @@
+version: "3"
+services:
+  mysqldb:
+    image: mysql:8
+    restart: always
+    networks:
+      - spring-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwerty
+      - MYSQL_DATABASE=aos4
+      - MYSQL_USER=qwerty
+      - MYSQL_PASSWORD=qwerty
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./dbdump:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+      
+  spring:
+    image: jvidalc/aos_subsistema4_notificaciones99
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-mysql
+    depends_on:
+      - mysqldb
+
+networks:
+  spring-mysql:
+
+volumes:
+  db_data:
