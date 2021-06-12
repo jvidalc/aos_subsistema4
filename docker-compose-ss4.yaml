@@ -17,7 +17,7 @@ services:
       - "3306:3306"
       
   spring:
-    image: jvidalc/aos_subsistema4_notificaciones99
+    image: jvidalc/aos_subsistema4_notificaciones
     ports:
       - "8080:8080"
     networks:
