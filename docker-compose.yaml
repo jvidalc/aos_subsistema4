@@ -1,19 +1,5 @@
 version: "3"
 services:
-  mysqldb:
-    image: mysql:8
-    restart: always
-    networks:
-      - ss4-mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=qwerty
-      - MYSQL_DATABASE=aos4
-      - MYSQL_USER=qwerty
-      - MYSQL_PASSWORD=qwerty
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./dbdump:/docker-entrypoint-initdb.d
-
   # Falta la imagen en dockerhub
   # ss1_clientes:
   #   image: 
@@ -59,6 +45,20 @@ services:
       - "8085:8080"
     networks: 
       - taller
+  
+  mysqldb:
+    image: mysql:8
+    restart: always
+    networks:
+      - ss4-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwerty
+      - MYSQL_DATABASE=aos4
+      - MYSQL_USER=qwerty
+      - MYSQL_PASSWORD=qwerty
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./dbdump:/docker-entrypoint-initdb.d
     
 networks:
   ss4-mysql:
