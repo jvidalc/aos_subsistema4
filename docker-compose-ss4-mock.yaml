@@ -1,0 +1,15 @@
+version: "3"
+services:
+      
+  spring:
+    image: jvidalc/aos_subsistema4_notificaciones
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-stoplight
+
+networks:
+  spring-stoplight:
+
+volumes:
+  db_data:

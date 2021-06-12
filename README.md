@@ -5,7 +5,8 @@ Este subsistema es el encargado de notificar a los clientes el estado de los dif
 ## Instalación y despliegue
 ### Ruta
 
-localhost/AOS4
+Frontend api
+http://localhost:8080/AOS4/
 
 ### Link imagen docker en dockerHUB
 
