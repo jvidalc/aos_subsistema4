@@ -4,7 +4,7 @@ services:
     image: mysql:8
     restart: always
     networks:
-      - spring-mysql
+      - ss4-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=qwerty
       - MYSQL_DATABASE=aos4
@@ -13,20 +13,56 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./dbdump:/docker-entrypoint-initdb.d
-      
-  spring:
+
+  # Falta la imagen en dockerhub
+  # ss1_clientes:
+  #   image: 
+    # ports:
+    #   - "8080:8080"
+    # networks: 
+    #   - taller
+
+  ss2_vehiculos:
+    image: asdiaz/aos_subsistema2:2.4
+    ports:
+      - "8081:8080"
+    networks: 
+      - taller
+  
+  ss3_trabajos:
+    image: migue9b/trabajos:latest
+    ports:
+      - "8082:8080"
+    networks: 
+      - taller
+  
+  ss4_notificaciones:
     image: jvidalc/aos_subsistema4_notificaciones
     ports:
-      - "8080:8080"
+      - "8083:8080"
     networks:
-      - spring-mysql
+      - ss4-mysql
+      - taller
     depends_on:
       - mysqldb
-
   
+  ss5_facturas:
+    image: rugana90/aos-ss5:0.5
+    ports:
+      - "8084:8080"
+    networks: 
+      - taller
 
+  ss6_recambios:
+    image: clatange/aos:latest
+    ports:
+      - "8085:8080"
+    networks: 
+      - taller
+    
 networks:
-  spring-mysql:
+  ss4-mysql:
+  taller:
 
 volumes:
   db_data:
