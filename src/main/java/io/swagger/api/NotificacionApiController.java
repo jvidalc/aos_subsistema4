@@ -20,6 +20,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-18T16:15:28.764Z[GMT]")
 @RestController
@@ -55,10 +56,8 @@ public class NotificacionApiController implements NotificacionApi {
         String accept = request.getHeader("Accept");
         if (accept != null && (accept.contains("application/json") || accept.contains("*/*"))) {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Allow", "GET");
-            responseHeaders.add("Allow", "OPTIONS");
-            responseHeaders.add("Allow", "POST");
-            return new ResponseEntity<Void>(responseHeaders, HttpStatus.OK);
+            responseHeaders.add("Allow", "GET, OPTIONS, POST");
+            return new ResponseEntity<Void>(responseHeaders, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
     }
@@ -89,11 +88,8 @@ public class NotificacionApiController implements NotificacionApi {
         String accept = request.getHeader("Accept");
         if (accept != null && (accept.contains("application/json") || accept.contains("*/*"))) {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Allow", "GET");
-            responseHeaders.add("Allow", "PUT");
-            responseHeaders.add("Allow", "DELETE");
-            responseHeaders.add("Allow", "OPTIONS");
-            return new ResponseEntity<Void>(responseHeaders, HttpStatus.OK);
+            responseHeaders.add("Allow", "GET, PUT, DELETE, OPTIONS");
+            return new ResponseEntity<Void>(responseHeaders, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
     }
