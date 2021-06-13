@@ -54,18 +54,12 @@ networks:
 volumes:
   db_data:
 ``` 
-### Construcción de la imagen 
-```
-docker build -t 'Nombre de la Imagen':'Tag de la Imagen'
-```
+
 ### Creación del contenedor
 ```
 docker run -p 8083:8080 'Nombre de la imagen': 'Tag de la imagen'
 ```
 Posteriormente nos vamos al navegador y escribimos: ``  http://localhost:8083/api/v1/notificaciones``
->***NOTA***: 
->- `Nombre de la imagen:` nombre de la imagen local (*Ejemplo*: ss4).
->- `Tag de la imagen:` tag de nuestra imagen (*Ejemplo*: 0.1).
 
 ## 📋 Explicación del diseño de la API para la gestión de ***Notificaciones***
 ### API segura: Autenticación
