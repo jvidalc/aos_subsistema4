@@ -1,26 +1,22 @@
-# Subsistema 4
+# Subsistema 4 (gestión de notificaciones 🔔)
 Envío de **notificaciones** relacionadas con el funcionamiento del taller. 
 Este subsistema es el encargado de notificar a los clientes el estado de los diferentes trabajos.
 
-## Instalación y despliegue
+## 	⚙️ Instalación y despliegue
    Al usar *docker* para instalar y ejecutar el servicio se deberá hacer uso del archivo `docker-compose.yml` disponible en el repositorio. A continuación se procederá a ejecutar el siguiente comando sobre su directorio:
 ```
 docker-compose up
 ```
-  De cara a la implementación del servicio en un cluster de kubernetes se puede tomar el archivo previamente mencionado en el que se detalla la implementación.
+  De cara a la implementación del servicio en un cluster de kubernetes se puede tomar el archivo `docker-compose.yml`, el cual más adelante en este documento se muestra su estructura y en el que se detalla la implementación.
   ### Construcción de la imagen 
     docker build -t 'Nombre de la Imagen':'Tag de la Imagen'
   ### Creación del contenedor
     docker run -p 8083:8080 'Nombre de la imagen': 'Tag de la imagen'
-  Posteriormente nos vamos al navegador y escribimos: 
-    ``
-      http://localhost:8083/api/v1/notificaciones
-  	``
-    ***NOTA***: 
-    - `Nombre de la imagen:` nombre de la imagen local.
-    - `Tag de la imagen:` tag de nuestra imagen (0.1)
+ Posteriormente nos vamos al navegador y escribimos: ``  http://localhost:8083/api/v1/notificaciones``
+   >***NOTA***: 
+   >- `Nombre de la imagen:` nombre de la imagen local.
+   >- `Tag de la imagen:` tag de nuestra imagen (0.1).
 ### Ruta
-
 Frontend api
 http://localhost:8080/AOS4/
 
@@ -33,11 +29,57 @@ https://hub.docker.com/repository/docker/jvidalc/aos_subsistema4_notificaciones
 ```yaml
 version: "3"
 services:
+
+  ss1_clientes:
+    image: zcj583/ss1-onlyflask
+    ports:
+      - "8080:8080"
+    networks: 
+      - taller
+
+  ss2_vehiculos:
+    image: asdiaz/aos_subsistema2:2.4
+    ports:
+      - "8081:8080"
+    networks: 
+      - taller
+  
+  ss3_trabajos:
+    image: migue9b/trabajos:latest
+    ports:
+      - "8082:8080"
+    networks: 
+      - taller
+  
+  ss4_notificaciones:
+    image: jvidalc/aos_subsistema4_notificaciones
+    ports:
+      - "8083:8080"
+    networks:
+      - ss4-mysql
+      - taller
+    depends_on:
+      - mysqldb
+  
+  ss5_facturas:
+    image: rugana90/aos-ss5:0.5
+    ports:
+      - "8084:8080"
+    networks: 
+      - taller
+
+  ss6_recambios:
+    image: clatange/aos:latest
+    ports:
+      - "8085:8080"
+    networks: 
+      - taller
+  
   mysqldb:
     image: mysql:8
     restart: always
     networks:
-      - spring-mysql
+      - ss4-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=qwerty
       - MYSQL_DATABASE=aos4
@@ -46,25 +88,17 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./dbdump:/docker-entrypoint-initdb.d
-      
-  spring:
-    image: jvidalc/aos_subsistema4_notificaciones
-    ports:
-      - "8080:8080"
-    networks:
-      - spring-mysql
-    depends_on:
-      - mysqldb
-
+    
 networks:
-  spring-mysql:
+  ss4-mysql:
+  taller:
 
 volumes:
   db_data:
 ``` 
 
 
-## Explicación del diseño de la API para la gestión de **Notificaciones**
+## 📋 Explicación del diseño de la API para la gestión de ***Notificaciones***
 ### API segura: Autenticación
 Hemos decidido crear dos tipos de autenticación mediante **JWT** (JSON Web Token) destinadas a funcionalidades distintas:
 - **userToken:** para autorizar a los clientes registrados en el taller a consultar todas sus notificaciones o una en concreto.
