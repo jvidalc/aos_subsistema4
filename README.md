@@ -34,54 +34,31 @@ Hemos utilizado la imagen de mysql de Docker Hub como tecnología de persistenci
 
 ## ⚙️ Despliegue de todos los servicios del taller
 
-   Al usar *docker* para instalar y ejecutar el servicio se deberá hacer uso del archivo `docker-compose.yml` disponible en el repositorio. A continuación se procederá a ejecutar el siguiente comando sobre su directorio:
+### docker-compose
+
+Para desplegar el servicio con docker-compose hemos considerado las siguientes decisiones de diseño:
+- Un contenedor por imagen de servicio, cada uno con puerto externo diferente asignado.
+- Hemos creado una network común a todos los serivicios: `network: taller`
+- Un contenedor con la imagen de mysql:8 para la persistencia de datos
+- Una `network: ss4-mysql` para conectar nuestro servicio de notificaciones con el contenedor de persitencia de datos mysql.
+  
+Para ejecutar el servicio se deberá hacer uso del archivo `docker-compose.yml` disponible en el repositorio. A continuación se procederá a ejecutar el siguiente comando sobre su directorio:
 ```
-docker-compose up
+docker-compose up -d
 ```
-  De cara a la implementación del servicio en un cluster de kubernetes se puede tomar el archivo `kubernetes-deployment.yml`, el cual más adelante en este documento se muestra su estructura y en el que se detalla la implementación.
 
-### Ruta
-Frontend api
-http://localhost:8080/AOS4/
+### kubernetes
 
-### Link imagen docker en dockerHUB
+Hemos empleado la herramienta [minikube](https://minikube.sigs.k8s.io/docs/start/) para el despliegue de los serivicios del taller.
 
-https://hub.docker.com/repository/docker/jvidalc/aos_subsistema4_notificaciones
+Para desplegar el servicio con kubernetes hemos considerado las siguientes decisiones de diseño:
+- Hemos creado un **deployment** por cada servicio del taller, asignando un puerto de acceso de pod distinto a cada uno para evitar posibles conflictos.
+- Un **servicio** por cada deployment. Teniendo en cuenta que necesitábamos acceder a los puertos de cada uno de los servicios para probarlos, consideremos que los puertos sean tipo ´NodePort´, a pesar de que no sea la opción más optima para un servicio backend de una API rest.
+- También creamos un `PersistentVolumeClaim` para dotar de persistencia al despliegue de la persistencia de datos en mysql.
 
-* Para ejecutar el servicio es necesario lanzar un contenedor independiente de mysql:
+De cara a la implementación del servicio en un cluster de kubernetes se puede usar la template `kubernetes-deployment.yml`.
+```
+kubectl apply -f kubernetes-deployment.yml
+```
 
-```yaml
-version: "3"
-services:
 
-  ss4_notificaciones:
-    image: jvidalc/aos_subsistema4_notificaciones
-    ports:
-      - "8083:8080"
-    networks:
-      - ss4-mysql
-      - taller
-    depends_on:
-      - mysqldb
-
-  mysqldb:
-    image: mysql:8
-    restart: always
-    networks:
-      - ss4-mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=qwerty
-      - MYSQL_DATABASE=aos4
-      - MYSQL_USER=qwerty
-      - MYSQL_PASSWORD=qwerty
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./dbdump:/docker-entrypoint-initdb.d
-    
-networks:
-  ss4-mysql:
-  taller:
-
-volumes:
-  db_data:
-``` 
