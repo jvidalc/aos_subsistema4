@@ -61,4 +61,18 @@ De cara a la implementación del servicio en un cluster de kubernetes se puede u
 kubectl apply -f kubernetes-deployment.yml
 ```
 
+### Despliegue en nube pública
 
+- Despliegue en Amazon Web Services usando Elastic Kubernetes Services. Hemos decidido desplegar la aplicación en la nube publica de Amazon. 
+
+![Captura](./capturas/postman.png "Amazon Web Services. Elastic Kubernetes Services.")
+
+- Hemos intentado el despliegue de la aplicación con cada uno de los servicios en la nube, pero a pesar de disponer el crédito necesario, el portal de azure no nos ha permitido desplegarlo sin introducir un método de pago. 
+
+![Captura](./capturas/azure-1.png "Amazon Web Services. Elastic Kubernetes Services.")
+![Captura](./capturas/azure-2.png "Amazon Web Services. Elastic Kubernetes Services.")
+
+### PostMan 
+
+- Hemos usado Postman para probar las peticiones a la api del servicio.
+![Captura](./capturas/postman.png "Amazon Web Services. Elastic Kubernetes Services.")
