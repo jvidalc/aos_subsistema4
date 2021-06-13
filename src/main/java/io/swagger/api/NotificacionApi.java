@@ -73,7 +73,7 @@ public interface NotificacionApi {
     @RequestMapping(value = "/notificacion/{notificacionId}",
         produces = { "application/problem+json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> s4NotificacionDelete(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId);
+    ResponseEntity<Void> s4NotificacionDelete(@Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId);
 
 
     @Operation(summary = "Recupera una notificacion específica identificada por su ID.", description = "Devuelve la notificación identificada por `notificacionId`.", security = {
@@ -89,7 +89,7 @@ public interface NotificacionApi {
     @RequestMapping(value = "/notificacion/{notificacionId}",
         produces = { "application/json", "application/problem+json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Notificacion> s4NotificacionGet(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId);
+    ResponseEntity<Notificacion> s4NotificacionGet(@Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId);
 
 
     @Operation(summary = "Proporciona la lista de los métodos HTTP soportados.", description = "Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).", tags={ "🔴 Notificacion" })
@@ -97,7 +97,7 @@ public interface NotificacionApi {
         @ApiResponse(responseCode = "204", description = "cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;") })
     @RequestMapping(value = "/notificacion/{notificacionId}",
         method = RequestMethod.OPTIONS)
-    ResponseEntity<Void> s4NotificacionOptions(@Pattern(regexp="^\\d+$") @Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId);
+    ResponseEntity<Void> s4NotificacionOptions(@Parameter(in = ParameterIn.PATH, description = "ID de una notificación", required=true, schema=@Schema()) @PathVariable("notificacionId") Integer notificacionId);
 
 
     @Operation(summary = "Crea una nueva notificacion.", description = "Genera una nueva notificacion para un cliente y trabajo concretos, autorizada previamente por otro subsistema.", security = {
