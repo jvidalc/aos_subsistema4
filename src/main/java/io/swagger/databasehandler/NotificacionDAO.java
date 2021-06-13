@@ -22,7 +22,7 @@ public class NotificacionDAO {
 
     public NotificacionDAO() {
         try {
-            this.con = DriverManager.getConnection("jdbc:mysql://172.26.0.2:3306/aos4","root","qwerty");
+            this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/aos4","root","qwerty");
             this.trabajoDAO = new TrabajoDAO(con);
         }
         catch(Exception ex) {
