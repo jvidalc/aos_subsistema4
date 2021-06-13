@@ -58,7 +58,7 @@ Para desplegar el servicio con kubernetes hemos considerado las siguientes decis
 
 De cara a la implementación del servicio en un cluster de kubernetes se puede usar la template `kubernetes-deployment.yml`.
 ```
-kubectl apply -f kubernetes-deployment.yml
+kubectl apply -f .\kubernetes-deployment.yaml
 ```
 
 ### Despliegue en nube pública
