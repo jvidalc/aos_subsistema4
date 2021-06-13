@@ -7,7 +7,7 @@ Este subsistema es el encargado de notificar a los clientes el estado de los dif
 ```
 docker-compose up
 ```
-  De cara a la implementación del servicio en un cluster de kubernetes se puede tomar el archivo `docker-compose.yml`, el cual más adelante en este documento se muestra su estructura y en el que se detalla la implementación.
+  De cara a la implementación del servicio en un cluster de kubernetes se puede tomar el archivo `kubernetes-deployment.yml`, el cual más adelante en este documento se muestra su estructura y en el que se detalla la implementación.
 
 ### Ruta
 Frontend api
