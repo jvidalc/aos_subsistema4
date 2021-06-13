@@ -23,27 +23,6 @@ https://hub.docker.com/repository/docker/jvidalc/aos_subsistema4_notificaciones
 version: "3"
 services:
 
-  ss1_clientes:
-    image: zcj583/ss1-onlyflask
-    ports:
-      - "8080:8080"
-    networks: 
-      - taller
-
-  ss2_vehiculos:
-    image: asdiaz/aos_subsistema2:2.4
-    ports:
-      - "8081:8080"
-    networks: 
-      - taller
-  
-  ss3_trabajos:
-    image: migue9b/trabajos:latest
-    ports:
-      - "8082:8080"
-    networks: 
-      - taller
-  
   ss4_notificaciones:
     image: jvidalc/aos_subsistema4_notificaciones
     ports:
@@ -53,21 +32,7 @@ services:
       - taller
     depends_on:
       - mysqldb
-  
-  ss5_facturas:
-    image: rugana90/aos-ss5:0.5
-    ports:
-      - "8084:8080"
-    networks: 
-      - taller
 
-  ss6_recambios:
-    image: clatange/aos:latest
-    ports:
-      - "8085:8080"
-    networks: 
-      - taller
-  
   mysqldb:
     image: mysql:8
     restart: always
