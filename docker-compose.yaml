@@ -1,12 +1,12 @@
 version: "3"
 services:
-  # Falta la imagen en dockerhub
-  # ss1_clientes:
-  #   image: 
-    # ports:
-    #   - "8080:8080"
-    # networks: 
-    #   - taller
+
+  ss1_clientes:
+    image: zcj583/ss1-onlyflask
+    ports:
+      - "8080:8080"
+    networks: 
+      - taller
 
   ss2_vehiculos:
     image: asdiaz/aos_subsistema2:2.4
