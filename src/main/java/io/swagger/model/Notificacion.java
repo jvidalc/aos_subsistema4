@@ -1,20 +1,15 @@
 package io.swagger.model;
 
-import java.time.LocalDate;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.model.NotificacionLinks;
+import io.swagger.model.NotificacionObjetoTrabajo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Notificacion asociada al estado del trabajo de un cliente en concreto.
@@ -22,6 +17,7 @@ import javax.validation.Valid;
 @Schema(description = "Notificacion asociada al estado del trabajo de un cliente en concreto.")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-18T16:15:28.764Z[GMT]")
+
 
 public class Notificacion   {
   @JsonProperty("notificacionId")
@@ -33,9 +29,8 @@ public class Notificacion   {
   @JsonProperty("fechaNotificacion")
   private LocalDate fechaNotificacion = null;
 
-  
-  @JsonProperty("trabajo")
-  private Trabajo trabajo = null;
+  @JsonProperty("objetoTrabajo")
+  private NotificacionObjetoTrabajo objetoTrabajo = null;
 
   @JsonProperty("links")
   private NotificacionLinks links = null;
@@ -98,24 +93,24 @@ public class Notificacion   {
     this.fechaNotificacion = fechaNotificacion;
   }
 
-  public Notificacion trabajo(Trabajo trabajo) {
-    this.trabajo = trabajo;
+  public Notificacion objetoTrabajo(NotificacionObjetoTrabajo objetoTrabajo) {
+    this.objetoTrabajo = objetoTrabajo;
     return this;
   }
 
   /**
-   * Get trabajo
-   * @return trabajo
+   * Get objetoTrabajo
+   * @return objetoTrabajo
    **/
   @Schema(description = "")
   
     @Valid
-    public Trabajo getTrabajo() {
-    return trabajo;
+    public NotificacionObjetoTrabajo getObjetoTrabajo() {
+    return objetoTrabajo;
   }
 
-  public void setTrabajo(Trabajo trabajo) {
-    this.trabajo = trabajo;
+  public void setObjetoTrabajo(NotificacionObjetoTrabajo objetoTrabajo) {
+    this.objetoTrabajo = objetoTrabajo;
   }
 
   public Notificacion links(NotificacionLinks links) {
@@ -151,13 +146,13 @@ public class Notificacion   {
     return Objects.equals(this.notificacionId, notificacion.notificacionId) &&
         Objects.equals(this.clienteId, notificacion.clienteId) &&
         Objects.equals(this.fechaNotificacion, notificacion.fechaNotificacion) &&
-        Objects.equals(this.trabajo, notificacion.trabajo) &&
+        Objects.equals(this.objetoTrabajo, notificacion.objetoTrabajo) &&
         Objects.equals(this.links, notificacion.links);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(notificacionId, clienteId, fechaNotificacion, trabajo, links);
+    return Objects.hash(notificacionId, clienteId, fechaNotificacion, objetoTrabajo, links);
   }
 
   @Override
@@ -168,7 +163,7 @@ public class Notificacion   {
     sb.append("    notificacionId: ").append(toIndentedString(notificacionId)).append("\n");
     sb.append("    clienteId: ").append(toIndentedString(clienteId)).append("\n");
     sb.append("    fechaNotificacion: ").append(toIndentedString(fechaNotificacion)).append("\n");
-    sb.append("    trabajo: ").append(toIndentedString(trabajo)).append("\n");
+    sb.append("    objetoTrabajo: ").append(toIndentedString(objetoTrabajo)).append("\n");
     sb.append("    links: ").append(toIndentedString(links)).append("\n");
     sb.append("}");
     return sb.toString();
