@@ -4,9 +4,18 @@ services:
   spring:
     image: jvidalc/aos_subsistema4_notificaciones
     ports:
-      - "8080:8080"
+      - "8088:8080"
     networks:
       - spring-stoplight
+
+  backend:
+    image: stoplight/prism:4
+    container_name: notificaciones_mock
+    command: mock --cors -h 0.0.0.0 "/aos/notificaciones.yaml"
+    ports:
+      - 4010:4010
+    volumes:
+        - ./openapi:/aos:ro
 
 networks:
   spring-stoplight:
