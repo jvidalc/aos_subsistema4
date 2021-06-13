@@ -8,14 +8,7 @@ Este subsistema es el encargado de notificar a los clientes el estado de los dif
 docker-compose up
 ```
   De cara a la implementación del servicio en un cluster de kubernetes se puede tomar el archivo `docker-compose.yml`, el cual más adelante en este documento se muestra su estructura y en el que se detalla la implementación.
-  ### Construcción de la imagen 
-    docker build -t 'Nombre de la Imagen':'Tag de la Imagen'
-  ### Creación del contenedor
-    docker run -p 8083:8080 'Nombre de la imagen': 'Tag de la imagen'
- Posteriormente nos vamos al navegador y escribimos: ``  http://localhost:8083/api/v1/notificaciones``
-   >***NOTA***: 
-   >- `Nombre de la imagen:` nombre de la imagen local.
-   >- `Tag de la imagen:` tag de nuestra imagen (0.1).
+
 ### Ruta
 Frontend api
 http://localhost:8080/AOS4/
@@ -96,7 +89,14 @@ networks:
 volumes:
   db_data:
 ``` 
-
+### Construcción de la imagen 
+ docker build -t 'Nombre de la Imagen':'Tag de la Imagen'
+### Creación del contenedor
+ docker run -p 8083:8080 'Nombre de la imagen': 'Tag de la imagen'
+Posteriormente nos vamos al navegador y escribimos: ``  http://localhost:8083/api/v1/notificaciones``
+>***NOTA***: 
+>- `Nombre de la imagen:` nombre de la imagen local.
+>- `Tag de la imagen:` tag de nuestra imagen (0.1).
 
 ## 📋 Explicación del diseño de la API para la gestión de ***Notificaciones***
 ### API segura: Autenticación
