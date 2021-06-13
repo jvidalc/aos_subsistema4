@@ -55,7 +55,9 @@ public class NotificacionApiController implements NotificacionApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Allow", "GET, OPTIONS, POST");
+            responseHeaders.add("Allow", "GET");
+            responseHeaders.add("Allow", "OPTIONS");
+            responseHeaders.add("Allow", "POST");
             return new ResponseEntity<Void>(responseHeaders, HttpStatus.OK);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
@@ -83,7 +85,10 @@ public class NotificacionApiController implements NotificacionApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Allow", "GET, PUT, DELETE, OPTIONS");
+            responseHeaders.add("Allow", "GET");
+            responseHeaders.add("Allow", "PUT");
+            responseHeaders.add("Allow", "DELETE");
+            responseHeaders.add("Allow", "OPTIONS");
             return new ResponseEntity<Void>(responseHeaders, HttpStatus.OK);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
